@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "paper-rag"
+version = "0.1.0"
+readme = "README.md"
+packages = [{include = "paper_rag", from = "src"}]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dotenv = "^0.9.9"
+pyyaml = "^6.0.3"
+httpx = "^0.28.1"
+django = "^6.1.1"
+pgvector = "^0.5.0"
+psycopg2 = "^2.9.13"
+
+[tool.setuptools.packages.find]
+where = ["src"]

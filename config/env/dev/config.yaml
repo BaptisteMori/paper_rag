@@ -1,0 +1,52 @@
+
+embedder:
+  provider: ollama
+  model: nomic-embed-text
+  dim: 768
+
+llm:
+  provider: ollama
+  model: qwen2.5:7b
+
+logging:
+  disable_existing_loggers: false
+  formatters:
+    standard:
+      format: "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+      datefmt: "%Y-%m-%d %H:%M:%S"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: standard
+      level: DEBUG
+  loggers:
+    paper_rag:
+      level: DEBUG
+      handlers: [console]
+      propagate: false
+    django:
+      level: INFO
+      handlers: [console]
+      propagate: false
+    httpx:
+      level: WARNING
+
+  root:
+    level: WARNING
+    handlers: [console]
+
+
+sources:
+  inspire:
+    url: https://inspirehep.net/literature/
+    api_url: https://inspirehep.net/api/literature
+    fields:
+      - control_number
+      - titles
+      - abstracts
+      - authors.full_name
+      - earliest_date
+    max_results: 10000
+    page_size: 100
+    delay: 1.0
+    sort: mostrecent
