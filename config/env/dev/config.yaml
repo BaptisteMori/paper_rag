@@ -1,8 +1,25 @@
 
 embedder:
-  provider: ollama
-  model: nomic-embed-text
-  dim: 768
+  default_provider: ollama
+  default_model: nomic-embed-text
+
+  models:
+    nomic-embed-text:
+      dim: 768
+      document_prefix: "search_document: "
+      query_prefix: "search_query: "
+    bge-m3:
+      dim: 1024
+
+  providers:
+    ollama:
+      models:
+        nomic-embed-text: nomic-embed-text
+        bge-m3: bge-m3
+    # sentence_transformers:
+    #   models:
+    #     nomic-embed-text: nomic-ai/nomic-embed-text-v1.5
+    #     bge-m3: BAAI/bge-m3
 
 llm:
   provider: ollama

@@ -12,7 +12,9 @@ class Command(BaseCommand):
     help = "Fetch papers from a source and store them in PostgreSQL."
 
     def add_arguments(self, parser):
-        parser.add_argument("--source", default="inspire", choices=list(INGESTER_SOURCES))
+        parser.add_argument(
+            "--source", default="inspire", choices=list(INGESTER_SOURCES)
+        )
         parser.add_argument("--limit", type=int, default=200)
         parser.add_argument("--text")
         parser.add_argument("--title")
@@ -26,8 +28,10 @@ class Command(BaseCommand):
         names = {f.name for f in fields(SourceQuery)}
         query = SourceQuery(**{k: v for k, v in options.items() if k in names})
         if not any([query.text, query.title, query.authors, query.keywords, query.raw]):
-            raise CommandError("Give at least one of --text, --title, --author, --keyword, --raw")
+            raise CommandError(
+                "Give at least one of --text, --title, --author, --keyword, --raw"
+            )
 
         source = INGESTER_SOURCES[options["source"]]()
-        created, updated = ingest(source, query, options["limit"])
-        self.stdout.write(self.style.SUCCESS(f"{created} created, {updated} updated"))
+        pushed = ingest(source, query, options["limit"])
+        self.stdout.write(self.style.SUCCESS(f"{pushed} pushed"))
