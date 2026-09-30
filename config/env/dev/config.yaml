@@ -26,6 +26,7 @@ llm:
   model: qwen2.5:7b
 
 logging:
+  version: 1
   disable_existing_loggers: false
   formatters:
     standard:

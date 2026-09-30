@@ -1,5 +1,7 @@
 import os
 
+from paper_rag.core.utils.config import config
+
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = (
@@ -37,3 +39,6 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "UNAUTHENTICATED_USER": None,
 }
+
+# Logging: configuration from config/env/<ENV>/config.yaml (applied by Django at startup)
+LOGGING = config()["logging"]
