@@ -31,9 +31,16 @@ class OllamaEmbedder(Embedder):
 
     def _call(self, inputs: list[str]) -> list[list[float]]:
         resp = self.client.post(
-            f"{self.url}/api/embed", json={"model": self.model, "input": inputs}
+            f"{self.url}/api/embed",
+            json={
+                "model": self.model,
+                "input": inputs,
+                "truncate": True,
+                # "options": {"num_ctx": 8192}, # to verify
+            },
         )
-        resp.raise_for_status()
+        if resp.is_error:
+            raise RuntimeError(f"Ollama error {resp.status_code}: {resp.text}")
         vectors = resp.json()["embeddings"]
         if vectors and len(vectors[0]) != self.dim:
             raise ValueError(

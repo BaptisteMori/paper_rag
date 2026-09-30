@@ -5,6 +5,7 @@ class Embedder(ABC):
     """Turns text into fixed-size vectors."""
 
     dim: int
+    model: str
 
     @abstractmethod
     def embed(self, texts: list[str]) -> list[list[float]]:

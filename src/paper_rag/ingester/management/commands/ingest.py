@@ -3,6 +3,7 @@ from datetime import date
 
 from django.core.management.base import BaseCommand, CommandError
 
+from paper_rag.core.embedders import get_embedder
 from paper_rag.ingester import INGESTER_SOURCES
 from paper_rag.ingester.ingester import ingest
 from paper_rag.ingester.sources.ingester import SourceQuery
@@ -23,6 +24,8 @@ class Command(BaseCommand):
         parser.add_argument("--since", type=date.fromisoformat)
         parser.add_argument("--until", type=date.fromisoformat)
         parser.add_argument("--raw")
+        parser.add_argument("--embedder", dest="provider")
+        parser.add_argument("--model")
 
     def handle(self, *args, **options):
         names = {f.name for f in fields(SourceQuery)}
@@ -33,5 +36,9 @@ class Command(BaseCommand):
             )
 
         source = INGESTER_SOURCES[options["source"]]()
-        pushed = ingest(source, query, options["limit"])
-        self.stdout.write(self.style.SUCCESS(f"{pushed} pushed"))
+
+        embedder = get_embedder(options["provider"], options["model"])
+        papers, embedded = ingest(source, query, options["limit"], embedder)
+        self.stdout.write(
+            self.style.SUCCESS(f"{papers} papers, {embedded} embeddings computed")
+        )
