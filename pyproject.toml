@@ -16,3 +16,14 @@ psycopg2 = "^2.9.13"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+[dependency-groups]
+dev = [
+    "django-stubs (>=6.1.1,<7.0.0)"
+]
+
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "paper_rag.settings"
