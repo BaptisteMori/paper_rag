@@ -9,7 +9,6 @@ class UpsertQuerySet(models.QuerySet):
         """
         INSERT ... ON CONFLICT DO UPDATE. Returned objects have their pk set (PostgreSQL).
 
-        ar
         """
         model = self.model
         return self.bulk_create(

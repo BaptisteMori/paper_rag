@@ -1,4 +1,4 @@
-# hep-rag
+# paper_rag
 
 Semantic search & RAG over scientific papers (INSPIRE-HEP first), with a Django REST API and an MCP server.
 
