@@ -1,7 +1,5 @@
 from paper_rag.core.embedders.embedder import Embedder
-
 from paper_rag.core.embedders.ollama_embedder import OllamaEmbedder
-
 from paper_rag.core.utils.config import config
 
 EMBEDDERS: dict[str, Embedder] = {"ollama": OllamaEmbedder}

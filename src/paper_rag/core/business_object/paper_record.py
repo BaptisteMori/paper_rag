@@ -6,7 +6,6 @@ from paper_rag.core.business_object._business_object import BO
 
 @dataclass
 class PaperRecord(BO):
-
     source: str
     external_id: str
     title: str

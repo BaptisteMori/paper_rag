@@ -1,12 +1,11 @@
 import time
 from collections.abc import Iterator
+
 import httpx
 
 from paper_rag.core.business_object.paper_record import PaperRecord
-
+from paper_rag.core.utils import config, dates
 from paper_rag.ingester.sources.ingester import Source, SourceQuery
-from paper_rag.core.utils import dates
-from paper_rag.core.utils import config
 
 
 class InspireSource(Source):

@@ -1,5 +1,6 @@
-import httpx
 import os
+
+import httpx
 
 from paper_rag.core.embedders.embedder import Embedder
 
@@ -43,7 +44,5 @@ class OllamaEmbedder(Embedder):
             raise RuntimeError(f"Ollama error {resp.status_code}: {resp.text}")
         vectors = resp.json()["embeddings"]
         if vectors and len(vectors[0]) != self.dim:
-            raise ValueError(
-                f"Model returned dim {len(vectors[0])}, EMBEDDING_DIM is {self.dim}"
-            )
+            raise ValueError(f"Model returned dim {len(vectors[0])}, EMBEDDING_DIM is {self.dim}")
         return vectors

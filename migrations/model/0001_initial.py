@@ -3,12 +3,11 @@
 import django.db.models.deletion
 import pgvector.django.indexes
 import pgvector.django.vector
-from pgvector.django import VectorExtension
 from django.db import migrations, models
+from pgvector.django import VectorExtension
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []

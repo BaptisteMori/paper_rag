@@ -2,7 +2,7 @@ import httpx
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
-from paper_rag.papers.search.search import search, hit_to_dict, SearchHit
+from paper_rag.papers.search.search import SearchHit, hit_to_dict, search
 
 
 # GET /search?q=...

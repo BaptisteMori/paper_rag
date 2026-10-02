@@ -24,12 +24,14 @@ Exemple :
 
 import time
 
+
 def timing_middleware(get_response):
     def middleware(request):
         start = time.perf_counter()
         response = get_response(request)
         response["X-Duration"] = f"{time.perf_counter() - start:.3f}s"
         return response
+
     return middleware
 ```
 

@@ -4,9 +4,7 @@ from paper_rag.core.utils.config import config
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
-ALLOWED_HOSTS = (
-    ["*"] if DEBUG else os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
-)
+ALLOWED_HOSTS = ["*"] if DEBUG else os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 INSTALLED_APPS = [
     "django.contrib.postgres",

@@ -7,8 +7,8 @@ from paper_rag.core.business_object.paper_record import PaperRecord
 from paper_rag.core.embedders.embedder import Embedder
 from paper_rag.core.model.models import EMBEDDING_TABLES, PaperRecordBaseEmbedding
 from paper_rag.core.model.models import PaperRecord as PaperRecordModel
-from paper_rag.ingester import Source, SourceQuery
 from paper_rag.core.utils.hash import hash_strings
+from paper_rag.ingester import Source, SourceQuery
 
 LOGGER = logging.getLogger(__name__)
 
@@ -50,9 +50,9 @@ def _upsert_embeddings(
 
     # Get the hashs of the paper_id
     stored = dict(
-        table.objects.filter(
-            paper_id__in=[pid for pid, _, _ in candidates]
-        ).values_list("paper_id", "text_hash")
+        table.objects.filter(paper_id__in=[pid for pid, _, _ in candidates]).values_list(
+            "paper_id", "text_hash"
+        )
     )
     pending = [(pid, h, text) for pid, h, text in candidates if stored.get(pid) != h]
     if not pending:

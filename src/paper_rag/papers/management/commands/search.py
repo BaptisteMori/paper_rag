@@ -1,7 +1,8 @@
 import json
+
 from django.core.management.base import BaseCommand
 
-from paper_rag.papers.search.search import search, hit_to_dict, SearchHit
+from paper_rag.papers.search.search import SearchHit, hit_to_dict, search
 
 
 class Command(BaseCommand):
@@ -13,9 +14,7 @@ class Command(BaseCommand):
         parser.add_argument("--model")
 
     def handle(self, *args, **options):
-        results: list[SearchHit] = search(
-            options["query"], k=options["k"], model=options["model"]
-        )
+        results: list[SearchHit] = search(options["query"], k=options["k"], model=options["model"])
 
         payload: dict[str, any] = {
             "query": options["query"],

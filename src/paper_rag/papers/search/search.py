@@ -1,8 +1,8 @@
 from dataclasses import dataclass
+
 from pgvector.django import CosineDistance
 
 from paper_rag.core.embedders import get_embedder
-
 from paper_rag.core.model.models import EMBEDDING_TABLES
 from paper_rag.core.model.models import PaperRecord as PaperRecordModel
 

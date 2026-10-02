@@ -1,4 +1,4 @@
-from paper_rag.ingester.sources.ingester import Source, SourceQuery
+from paper_rag.ingester.sources.ingester import Source
 
 # Sources
 from paper_rag.ingester.sources.inspire import InspireSource

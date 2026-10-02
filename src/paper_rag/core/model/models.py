@@ -55,9 +55,7 @@ class PaperRecord(BaseModel):
     class Meta:
         db_table = "paper_records"
         constraints = [
-            models.UniqueConstraint(
-                fields=["source", "external_id"], name="uniq_source_paper"
-            )
+            models.UniqueConstraint(fields=["source", "external_id"], name="uniq_source_paper")
         ]
         indexes = [
             HnswIndex(
@@ -88,7 +86,6 @@ class PaperRecordBaseEmbedding(BaseModel):
 
 
 class NomicEmbedding(PaperRecordBaseEmbedding):
-
     MODEL_NAME = "nomic-embed-text"
     DIM = 768
 

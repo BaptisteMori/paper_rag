@@ -18,9 +18,20 @@ psycopg2 = "^2.9.13"
 where = ["src"]
 [dependency-groups]
 dev = [
-    "django-stubs (>=6.1.1,<7.0.0)"
+    "django-stubs (>=6.1.1,<7.0.0)",
+    "ruff (>=0.16.10,<0.17.0)",
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-django (>=4.14.0,<5.0.0)",
+    "pytest-env (>=1.7.1,<2.0.0)"
 ]
 
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]
