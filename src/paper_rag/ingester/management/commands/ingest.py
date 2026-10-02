@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from paper_rag.core.embedders import get_embedder
 from paper_rag.ingester import INGESTER_SOURCES
 from paper_rag.ingester.ingester import ingest
-from paper_rag.ingester.sources.ingester import SourceQuery
+from paper_rag.ingester.sources.source import SourceQuery
 
 
 class Command(BaseCommand):

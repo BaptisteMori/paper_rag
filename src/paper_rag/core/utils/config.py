@@ -3,7 +3,7 @@ from pathlib import Path
 
 import yaml
 
-CONFIG: dict[str:any] = {}
+CONFIG: dict[str, any] = {}
 
 
 def load_config() -> None:
@@ -12,7 +12,7 @@ def load_config() -> None:
         CONFIG.update(yaml.safe_load(f) or {})
 
 
-def config() -> dict[str:any]:
+def config() -> dict[str, any]:
     if CONFIG == {}:
         load_config()
     return CONFIG

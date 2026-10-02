@@ -5,7 +5,7 @@ import httpx
 
 from paper_rag.core.business_object.paper_record import PaperRecord
 from paper_rag.core.utils import config, dates
-from paper_rag.ingester.sources.ingester import Source, SourceQuery
+from paper_rag.ingester.sources.source import Source, SourceQuery
 
 
 class InspireSource(Source):
