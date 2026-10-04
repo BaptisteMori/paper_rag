@@ -50,9 +50,9 @@ def _upsert_embeddings(
 
     # Get the hashs of the paper_id
     stored = dict(
-        table.objects.filter(paper_id__in=[pid for pid, _, _ in candidates]).values_list(
-            "paper_id", "text_hash"
-        )
+        table.objects.filter(
+            paper_id__in=[pid for pid, _, _ in candidates]
+        ).values_list("paper_id", "text_hash")
     )
     pending = [(pid, h, text) for pid, h, text in candidates if stored.get(pid) != h]
     if not pending:
@@ -62,6 +62,10 @@ def _upsert_embeddings(
     try:
         vectors = embedder.embed([text for _, _, text in pending])
     except RuntimeError:
+        with open("pending.json", "w") as fp:
+            import json
+
+            json.dump(pending, fp)
         for pid, _, text in pending:
             try:
                 embedder.embed([text])

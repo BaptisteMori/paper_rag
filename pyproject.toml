@@ -2,7 +2,10 @@
 name = "paper-rag"
 version = "0.1.0"
 readme = "README.md"
-packages = [{include = "paper_rag", from = "src"}]
+packages = [
+    {include = "paper_rag", from = "src"},
+    {include = "scripts"},
+]
 
 
 [tool.poetry.dependencies]
