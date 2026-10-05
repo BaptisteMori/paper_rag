@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 
 import httpx
@@ -37,9 +38,6 @@ DATA = Path(__file__).parent / "data"
 #     text = (DATA / "paper_311.txt").read_text(encoding="utf-8")
 #     vectors = embedder.embed([text])
 #     assert len(vectors[0]) == embedder.dim
-
-
-import re
 
 
 @pytest.mark.ollama

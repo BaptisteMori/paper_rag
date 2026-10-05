@@ -52,6 +52,7 @@ python manage.py migrate model
      - stocker les infos dans la base de données
 - résoudre l'erreur : ERROR    | paper_rag.ingester.ingester | Paper 311 failed (5422 chars): Ollama error 400: {"error":"the input length exceeds the context length"}
 - Ajoute de la doc Baptiste
+- changé embedders par embedding_providers ? et model par embedding_model ( pour éviter les confusions ) ?
 ## ingestion
 
 ```bash

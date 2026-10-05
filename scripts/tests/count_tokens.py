@@ -1,11 +1,10 @@
-import scripts._bootstrap  # noqa: F401
-
-import re
 import os
+import re
 import statistics
 
 import httpx
 
+import scripts._bootstrap  # noqa: F401
 from paper_rag.core.model.models import PaperRecord
 
 URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")

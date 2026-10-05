@@ -68,3 +68,14 @@ sources:
     page_size: 100
     delay: 1.0
     sort: mostrecent
+
+text:
+  cleaners:
+    default_cleaning_pipeline: # order matter
+      - whitelisted_strip_markup
+      - normalize_whitespace
+    mathml_tags: [
+      "math", "mrow", "mi", "mo", "msup", "mn", "msub",
+      "msubsup", "mfrac", "mstyle", "mtext", "mspace",
+      "sup", "mover", "msqrt",
+    ]

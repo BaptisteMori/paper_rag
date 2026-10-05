@@ -1,6 +1,7 @@
 import re
 
 from paper_rag.core.text.cleaners.cleaner import TextCleaner
+from paper_rag.core.utils.config import config
 
 
 class StripMarkup(TextCleaner):
@@ -10,25 +11,9 @@ class StripMarkup(TextCleaner):
 
 class WhitelistedStripMarkup(TextCleaner):
     def __init__(self):
-        self.MATHML_TAGS: list[str] = [
-            "math",
-            "mrow",
-            "mi",
-            "mo",
-            "msup",
-            "mn",
-            "msub",
-            "msubsup",
-            "mfrac",
-            "mstyle",
-            "mtext",
-            "mspace",
-            "sup",
-            "mover",
-            "msqrt",
-        ]
+        self.mathml_tags: list[str] = config()["text"]["cleaners"]["mathml_tags"]
         self.pattern: re.Pattern[str] = re.compile(
-            r"</?(?:" + "|".join(self.MATHML_TAGS) + r")\b[^>]*>"
+            r"</?(?:" + "|".join(self.mathml_tags) + r")\b[^>]*>"
         )
 
     def clean(self, text: str) -> str:

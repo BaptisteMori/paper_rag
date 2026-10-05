@@ -7,6 +7,12 @@ from paper_rag.core.business_object.paper_record import PaperRecord
 from paper_rag.core.embedders.embedder import Embedder
 from paper_rag.core.model.models import EMBEDDING_TABLES, PaperRecordBaseEmbedding
 from paper_rag.core.model.models import PaperRecord as PaperRecordModel
+from paper_rag.core.text.cleaners import (
+    CleaningPipeline,
+    NormalizeWhitespace,
+    TextCleaner,
+    WhitelistedStripMarkup,
+)
 from paper_rag.core.utils.hash import hash_strings
 from paper_rag.ingester import Source, SourceQuery
 
@@ -28,25 +34,34 @@ def _upsert_embeddings(
     paper_ids: dict[Key, int],
     table: type[PaperRecordBaseEmbedding],
     embedder: Embedder,
+    cleaners: CleaningPipeline | None = None,
 ) -> int:
     """
     Compute and store embeddings only for papers whose text (or model) changed.
 
     Args:
       reorcds: A list of PaperRecord.
+      table: the table where to save the embeddings
+      embedder: the provider configured with the model of embedding
+      cleaners: A pipeline configured with the cleaners,
+        to clean the text before hashing and embedding
 
     Returns:
       The new minimum port.
     """
+    if not cleaners:
+        cleaners = CleaningPipeline()
     # (paper_id, hash, texte) for each article
-    candidates = [
-        (
-            paper_ids[_key(r)],
-            hash_strings([embedder.model, r.text_for_embedding()]),
-            r.text_for_embedding(),
+    candidates: list = []
+    for record in records:
+        cleaned_text: str = cleaners.clean(record.text_for_embedding())
+        candidates.append(
+            (
+                paper_ids[_key(record)],
+                hash_strings([embedder.model, cleaned_text]),
+                cleaned_text,
+            )
         )
-        for r in records
-    ]
 
     # Get the hashs of the paper_id
     stored = dict(
@@ -62,10 +77,6 @@ def _upsert_embeddings(
     try:
         vectors = embedder.embed([text for _, _, text in pending])
     except RuntimeError:
-        with open("pending.json", "w") as fp:
-            import json
-
-            json.dump(pending, fp)
         for pid, _, text in pending:
             try:
                 embedder.embed([text])
@@ -97,17 +108,25 @@ def ingest(
     limit: int,
     embedder: Embedder,
     batch_size: int = 32,
+    cleaning_pipeline: CleaningPipeline | None = None,
 ) -> tuple[int, int]:
     """Fetch papers, upsert them, then (re)compute only the embeddings whose text changed.
     Returns (papers upserted, embeddings computed)."""
     table = EMBEDDING_TABLES[embedder.model]
     nb_papers = nb_embedded = 0
 
+    # setup text cleaners
+    if not cleaning_pipeline:
+        cleaners: list[TextCleaner] = [WhitelistedStripMarkup(), NormalizeWhitespace()]
+        cleaning_pipeline: CleaningPipeline = CleaningPipeline(cleaners)
+
     for chunk in batched(source.fetch(query, limit), batch_size):
         records = _deduplicate(chunk)
 
         paper_ids = _upsert_papers(records)
-        nb_embedded += _upsert_embeddings(records, paper_ids, table, embedder)
+        nb_embedded += _upsert_embeddings(
+            records, paper_ids, table, embedder, cleaning_pipeline
+        )
         nb_papers += len(records)
 
         LOGGER.info(

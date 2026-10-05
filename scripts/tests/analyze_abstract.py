@@ -1,8 +1,7 @@
-import scripts._bootstrap  # noqa: F401
-
 import re
 from collections import Counter
 
+import scripts._bootstrap  # noqa: F401
 from paper_rag.core.model.models import PaperRecord
 
 abstracts = list(PaperRecord.objects.values_list("abstract", flat=True))
